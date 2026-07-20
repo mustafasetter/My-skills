@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mustafa Walwil — Skills Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0c10;
+      --card-bg: #14171f;
+      --card-border: #1e2230;
+      --accent-gold: #d4a843;
+      --accent-teal: #2dd4bf;
+      --accent-coral: #f87171;
+      --accent-sky: #60a5fa;
+      --accent-amber: #f59e0b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 32px;
+      line-height: 1.6;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .header h1 span { color: var(--accent-gold); }
+
+    .header .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent-gold);
+      color: #0a0c10;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 12px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-top: 4px;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212, 168, 67, 0.3);
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 920px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .pillar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pillar:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .pillar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .pillar.coachability::before { background: var(--accent-teal); }
+    .pillar.consistency::before { background: var(--accent-gold); }
+    .pillar.ownership::before { background: var(--accent-coral); }
+    .pillar.comms::before { background: var(--accent-sky); }
+
+    .pillar-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .pillar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .coachability .pillar-icon { background: rgba(45, 212, 191, 0.12); }
+    .consistency .pillar-icon { background: rgba(212, 168, 67, 0.12); }
+    .ownership .pillar-icon { background: rgba(248, 113, 113, 0.12); }
+    .comms .pillar-icon { background: rgba(96, 165, 250, 0.12); }
+
+    .pillar-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .pillar-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.025);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: background 0.2s ease;
+    }
+
+    .skill-item:hover { background: rgba(255,255,255,0.05); }
+
+    .skill-item.featured {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      position: relative;
+    }
+
+    .skill-item.featured::before {
+      content: '★';
+      position: absolute;
+      top: 6px;
+      right: 10px;
+      font-size: 0.7rem;
+      color: var(--accent-amber);
+      opacity: 0.7;
+    }
+
+    .skill-item.featured:hover {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    .skill-bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .coachability .skill-bullet { background: var(--accent-teal); }
+    .consistency .skill-bullet { background: var(--accent-gold); }
+    .ownership .skill-bullet { background: var(--accent-coral); }
+    .comms .skill-bullet { background: var(--accent-sky); }
+
+    .skill-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .skill-text strong {
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .skill-item.featured .skill-text strong {
+      color: #fbbf24;
+    }
+
+    .highlight-stat {
+      display: inline-block;
+      background: rgba(212, 168, 67, 0.15);
+      color: var(--accent-gold);
+      padding: 1px 7px;
+      border-radius: 5px;
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
+    .footer-section {
+      margin-top: 36px;
+      text-align: center;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .footer-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .footer-tag {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .footer-tag .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .closing-line {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    .closing-line strong {
+      color: var(--text-secondary);
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 700px) {
+      .pillars-grid { grid-template-columns: 1fr; }
+      .header h1 { font-size: 1.7rem; }
+      body { padding: 24px 16px; }
+    }
+  </style>
+<base target="_blank">
+</head>
+<body>
+
+  <div class="header">
+    <h1>Mustafa Walwil — <span>Skill Dashboard</span></h1>
+    <p class="tagline">Your next appointment setter.</p>
+    <a href="https://calendly.com/muuworks08/30min" class="cta-btn" target="_blank">Book a Call →</a>
+  </div>
+
+  <div class="pillars-grid">
+
+    <!-- PILLAR 1: COACHABILITY -->
+    <div class="pillar coachability">
+      <div class="pillar-header">
+        <div class="pillar-icon">🎯</div>
+        <div>
+          <div class="pillar-title">Coachability</div>
+          <div class="pillar-subtitle">Listen. Adapt. Execute.</div>
+        </div>
+      </div>
+      <ul class="skill-list">
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Wrestling — 1+ year</strong><br>Learned to take feedback under pressure, adjust technique in real time, and show up when it hurts</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Seeking Knowledge — SOK Academy / Garden of Ilm</strong><br>1+ year of structured learning — built the discipline of showing up consistently to grow</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>University of Ottawa</strong><br>Finance & Marketing — learned to hit deadlines, absorb complex material, and apply under pressure</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- PILLAR 2: CONSISTENCY + DISCIPLINE -->
+    <div class="pillar consistency">
+      <div class="pillar-header">
+        <div class="pillar-icon">🔥</div>
+        <div>
+          <div class="pillar-title">Consistency + Discipline</div>
+          <div class="pillar-subtitle">Show up. Every. Single. Day.</div>
+        </div>
+      </div>
+      <ul class="skill-list">
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Platera — First Role</strong><br><span class="highlight-stat">Tripled</span> the suggested outreach target, finished onboarding in <span class="highlight-stat">1/5th</span> the time, and recorded VSLs they were about to outsource</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>YouTube Channel — Built from 0</strong><br>Streamed daily for months without missing a day. Result: <span class="highlight-stat">7M+ views</span> & <span class="highlight-stat">8K subs</span> in <span class="highlight-stat">5 months</span></span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Clash Royale — Pro Player</strong><br>Peaked <span class="highlight-stat">Top 1 in Canada</span> through daily grind, meta analysis, and relentless improvement</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- PILLAR 3: OWNERSHIP MINDSET -->
+    <div class="pillar ownership">
+      <div class="pillar-header">
+        <div class="pillar-icon">🚀</div>
+        <div>
+          <div class="pillar-title">Ownership Mindset</div>
+          <div class="pillar-subtitle">Treat your business like mine.</div>
+        </div>
+      </div>
+      <ul class="skill-list">
+        <li class="skill-item featured">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Remote Rizq Mentorship</strong><br>Invested in high-ticket sales training, absorbed systems fast, landed first role in ONLY <span class="highlight-stat">5 days</span></span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Side Hustles — Always Investing</strong><br>Clothing brand, car detailing, stock market, YouTube, and Influencer Marketing Agency. I put my money where my mouth is.</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Internships — PolyPlastics & ContentBlocks</strong><br>Lead generation & marketing roles where I took initiative beyond the job description</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- PILLAR 4: COMMUNICATION & EMPATHY -->
+    <div class="pillar comms">
+      <div class="pillar-header">
+        <div class="pillar-icon">🤝</div>
+        <div>
+          <div class="pillar-title">Communication & Empathy</div>
+          <div class="pillar-subtitle">Understand pain. Tailor the path.</div>
+        </div>
+      </div>
+      <ul class="skill-list">
+        <li class="skill-item featured">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Customer Service — 2.5 Years</strong><br>Walmart & Costco. I understand people's needs — appointment setting is all about understanding where someone is and where they want to go. I also learned to hold my frame under pressure.</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Presentations, VSLs & Looms</strong><br>Created and recorded sales materials for Platera — comfortable on camera, clear under pressure</span>
+        </li>
+        <li class="skill-item">
+          <span class="skill-bullet"></span>
+          <span class="skill-text"><strong>Volunteering — Taught at Multiple Schools</strong><br>1 year teaching children — learned to break down complex ideas simply, read a room, and communicate with patience and empathy</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-section">
+    <div class="footer-bar">
+      <div class="footer-tag"><span class="dot" style="background:#2dd4bf"></span>Coachable Under Pressure</div>
+      <div class="footer-tag"><span class="dot" style="background:#d4a843"></span>Daily Consistency Proven</div>
+      <div class="footer-tag"><span class="dot" style="background:#f87171"></span>Owner-Level Execution</div>
+      <div class="footer-tag"><span class="dot" style="background:#60a5fa"></span>Pain-First Communication</div>
+    </div>
+    <p class="closing-line">Available for high-ticket brands. <strong>Show up first. Leave last. Outwork.</strong></p>
+  </div>
+
+</body>
+</html>
